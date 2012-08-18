@@ -58,11 +58,26 @@
 
 	$.fn.filedrop = function(options) {
 		opts = $.extend( {}, default_opts, options );
-		
-		this.bind('drop', drop).bind('dragenter', dragEnter).bind('dragover', dragOver).bind('dragleave', dragLeave);
-		$(document).bind('drop', docDrop).bind('dragenter', docEnter).bind('dragover', docOver).bind('dragleave', docLeave);
+		this.bind('change',change);
+        //pentru drop and drown and change
+		//this.bind('drop', drop).bind('dragenter', dragEnter).bind('dragover', dragOver).bind('dragleave', dragLeave).bind('change',change);
+		//$(document).bind('drop', docDrop).bind('dragenter', docEnter).bind('dragover', docOver).bind('dragleave', docLeave);
 	};
      
+    function change(e){
+		opts.drop(e);
+		files = e.target.files;
+		if (files === null || files === undefined) {
+			opts.error(errors[0]);
+			return false;
+		}
+	    console.log(e.target.files)	
+		files_count = files.length;
+		upload();
+		e.preventDefault();
+		return false;
+      //  console.log($(this).children("input").val());
+}
 	function drop(e) {
 		opts.drop(e);
 		files = e.dataTransfer.files;
@@ -72,6 +87,7 @@
 		}
 		
 		files_count = files.length;
+        console.log(files)
 		upload();
 		e.preventDefault();
 		return false;
@@ -187,7 +203,7 @@
 			
 			var xhr = new XMLHttpRequest(),
 				upload = xhr.upload,
-				file = files[e.target.index],
+	            file = files[e.target.index],
 				index = e.target.index,
 				start_time = new Date().getTime(),
 				boundary = '------multipartformboundary' + (new Date).getTime(),
@@ -228,7 +244,7 @@
 			    if (result === false) stop_loop = true;
 			    }
 			};
-		}
+	}
 	}
     
 	function getIndexBySize(size) {

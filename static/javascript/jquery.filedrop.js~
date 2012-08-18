@@ -59,10 +59,24 @@
 	$.fn.filedrop = function(options) {
 		opts = $.extend( {}, default_opts, options );
 		
-		this.bind('drop', drop).bind('dragenter', dragEnter).bind('dragover', dragOver).bind('dragleave', dragLeave);
+		this.bind('drop', drop).bind('dragenter', dragEnter).bind('dragover', dragOver).bind('dragleave', dragLeave).bind('change',change);
 		$(document).bind('drop', docDrop).bind('dragenter', docEnter).bind('dragover', docOver).bind('dragleave', docLeave);
 	};
      
+    function change(e){
+		opts.drop(e);
+		files = e.target.files;
+		if (files === null || files === undefined) {
+			opts.error(errors[0]);
+			return false;
+		}
+	    console.log(e.target.files)	
+		files_count = files.length;
+		upload();
+		e.preventDefault();
+		return false;
+      //  console.log($(this).children("input").val());
+}
 	function drop(e) {
 		opts.drop(e);
 		files = e.dataTransfer.files;
@@ -72,6 +86,7 @@
 		}
 		
 		files_count = files.length;
+        console.log(files)
 		upload();
 		e.preventDefault();
 		return false;
@@ -209,8 +224,8 @@
 			upload.addEventListener("progress", progress, false);
 			
 			xhr.open("POST", opts.url, true);
-			xhr.setRequestHeader('content-type', 'multipart/form-data; boundary=' 
-			    + boundary);
+			//xhr.setRequestHeader('content-type', 'multipart/form-data; boundary=' 
+			  //  + boundary);
 			    
 			xhr.sendAsBinary(builder);  
 			
@@ -220,7 +235,7 @@
 			    if (xhr.responseText) {
 				var now = new Date().getTime(),
 				    timeDiff = now - start_time,
-				    result = opts.uploadFinished(index, file, jQuery.parseJSON(xhr.responseText), timeDiff);
+				    result = opts.uploadFinished(index, file, timeDiff);
 					filesDone++;
 					if (filesDone == files_count - filesRejected) {
 						afterAll();

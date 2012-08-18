@@ -31,8 +31,6 @@ def upload(request):
 @csrf_exempt
 def upload_file(request):
     if request.method == "POST":
-        print request.FILES
-        print request.FILES.getlist('pic')
         im = Image.open(request.FILES['pic'])
         ImageAttachment.objects.create(image=request.FILES['pic'])
         #im.save('static/upload'+str(request.FILES['pic'])) 

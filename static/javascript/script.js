@@ -6,7 +6,7 @@ $(function(){
     dropbox.filedrop({
 		paramname:'pic',
 		
-		maxfiles: 1,
+		maxfiles: 5,
     	maxfilesize: 2,
 		url: 'upload_file',
 		
@@ -83,9 +83,10 @@ $(function(){
 		// Reading the file as a DataURL. When finished,
 		// this will trigger the onload function above:
 		reader.readAsDataURL(file);
-		
+	
+    //ce se intampla si se adauga fisierele 	
 		message.hide();
-		preview.appendTo(dropbox);
+		$('.change').html(preview);
 		
 		// Associating a preview container
 		// with the file, using jQuery's $.data():
