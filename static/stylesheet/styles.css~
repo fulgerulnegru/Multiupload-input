@@ -79,7 +79,7 @@ h1{
 	overflow: hidden;
 	text-indent: -99999px;
 	text-align: center;
-	color:red
+	color:red;
 }
 
  

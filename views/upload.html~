@@ -19,6 +19,7 @@
 		</header>
 		<div id="dropbox">
 	  <input type="file" class="file1" value="Adauga fisier" multiple="multiple" />
+      <div class="change"></div>
 		</div>
 		
         <footer>
